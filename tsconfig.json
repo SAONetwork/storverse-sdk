@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "resolveJsonModule": true,
+      "module": "ESNext",
+      "lib": ["dom", "esnext"],
+      "target": "ES2020",
+      "importHelpers": false,
+      "declaration": true,
+      "sourceMap": true,
+      "strict": false,
+      "noUnusedLocals": false,
+      "strictNullChecks": false,
+      "alwaysStrict": false, 
+      "noImplicitReturns": false,
+      "noUnusedParameters": false,
+      "noFallthroughCasesInSwitch": false,
+      "moduleResolution": "Node",
+      "esModuleInterop": true,
+      "outDir": "./dist"
+    },
+    "include": ["src"]
+  }
+  

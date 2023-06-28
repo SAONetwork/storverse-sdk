@@ -1,0 +1,23 @@
+{
+  "include": [
+    "./src/*.ts"
+  ],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["DOM", "ES2020"],
+    "skipLibCheck": true
+  },
+  "typedocOptions": {
+    "name": "Storverse Typescript SDK",
+    "readme": "none",
+    "plugin": ["typedoc-plugin-markdown"],
+    "entryPoints": [
+      "./src/index.ts"
+    ],
+    "disableSources": true,
+    "excludeExternals": true,
+    "excludeInternal": true,
+    "excludePrivate": true,
+    "githubPages": false
+  }
+}

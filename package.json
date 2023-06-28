@@ -1,0 +1,37 @@
+{
+  "name": "storverse-sdk",
+  "version": "1.0.4",
+  "type": "module",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:clean": "rm -rf dist",
+    "build:js": "swc src -d ./dist --config-file ./.swcrc",
+    "build:types": "tsc --emitDeclarationOnly --skipLibCheck",
+    "build": "yarn build:clean && yarn build:types && yarn build:js",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "format": "npx prettier --write \"src/**/*.ts\"",
+    "lint": "eslint --fix --ignore-pattern \"src/**/*.test.[jt]s\" \"src/**/*.[jt]s\""
+  },
+  "dependencies": {
+    "@libp2p/crypto": "^1.0.7",
+    "@libp2p/mplex": "^7.0.0",
+    "@libp2p/peer-id": "^1.1.16",
+    "@libp2p/peer-id-factory": "^1.0.19",
+    "@libp2p/webtransport": "^1.0.3",
+    "@saonetwork/common": "^0.0.2",
+    "@saonetwork/saochain-ts-client": "^0.0.5",
+    "@saonetwork/sid": "^0.0.17",
+    "storverse-sao-api-client": "^0.0.5",
+    "storverse-sao-model": "^0.0.23",
+    "typescript": "^5.0.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.15.3"
+  }
+}

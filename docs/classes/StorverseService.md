@@ -20,8 +20,11 @@
 
 ### Methods
 
+- [CreateFile](StorverseService.md#createfile)
 - [GetAvatar](StorverseService.md#getavatar)
 - [GetAvatarDelegate](StorverseService.md#getavatardelegate)
+- [GetFile](StorverseService.md#getfile)
+- [GetFileDelegate](StorverseService.md#getfiledelegate)
 - [GetUserFollowedList](StorverseService.md#getuserfollowedlist)
 - [GetUserFollowers](StorverseService.md#getuserfollowers)
 - [GetUserFollowing](StorverseService.md#getuserfollowing)
@@ -101,6 +104,22 @@ ___
 
 ## Methods
 
+### CreateFile
+
+▸ **CreateFile**(`file`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `file` | `File` |
+
+#### Returns
+
+`Promise`<`string`\>
+
+___
+
 ### GetAvatar
 
 ▸ **GetAvatar**(`id`): `Promise`<`any`\>
@@ -130,6 +149,38 @@ ___
 #### Returns
 
 `Promise`<`any`\>
+
+___
+
+### GetFile
+
+▸ **GetFile**(`id`): `Promise`<`string` \| `ArrayBuffer`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+
+#### Returns
+
+`Promise`<`string` \| `ArrayBuffer`\>
+
+___
+
+### GetFileDelegate
+
+▸ **GetFileDelegate**(`id`): `Promise`<`string` \| `ArrayBuffer`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+
+#### Returns
+
+`Promise`<`string` \| `ArrayBuffer`\>
 
 ___
 
@@ -433,7 +484,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `verse` | `any` |
+| `verse` | `Verse` |
 
 #### Returns
 

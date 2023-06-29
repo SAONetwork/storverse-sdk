@@ -8,7 +8,7 @@ export type Verse = {
   createdAt: number;
   fileIds: string[];
   owner: string;
-  price: number;
+  price: string;
   digest: string;
   scope: number;
   status: number;
@@ -415,7 +415,7 @@ function parseVerse(rawVerse: any): Verse {
     createdAt: parseInt(rawVerse.CreatedAt.n, 10),
     fileIds: JSON.parse(rawVerse.FileIDs),
     owner: rawVerse.Owner,
-    price: parseFloat(rawVerse.Price),
+    price: rawVerse.Price,
     digest: rawVerse.Digest,
     scope: parseInt(rawVerse.Scope, 10),
     status: parseInt(rawVerse.Status, 10),

@@ -18,7 +18,7 @@ export class StorverseService {
   constructor(modelManager: ModelManager, config: SaoConfig) {
     this.userProfileService = new UserProfileService(modelManager, config);
     this.verseService = new VerseService(modelManager, config);
-    this.fileService = new FileService(modelManager);
+    this.fileService = new FileService(modelManager, config);
     this.verseCommentService = new VerseCommentService(modelManager, config);
     this.userFollowingService = new UserFollowingService(modelManager, config);
     this.config = config;
@@ -101,22 +101,36 @@ export class StorverseService {
     }
   };
 
-  SaveVerse = async (verse: any): Promise<string> => {
+  SaveVerse = async (verse: Verse): Promise<string> => {
     return this.verseService.SaveVerse(verse);
   }
+
+  CreateFile = async (file: File): Promise<string> => {
+    return this.fileService.CreateFile(file);
+  };
+
+  GetFile = async (id: string): Promise<ArrayBuffer | null | string> => {
+    let result = await this.fileService.GetFile(id, false);
+    return result.data;
+  };
+
+  GetFileDelegate = async (id: string): Promise<ArrayBuffer | null | string> => {
+    let result = await this.fileService.GetFileDelegate(id, false);
+    return result.data;
+  };
 
   GetVerseFile = async (
     dataId: string,
     getFromFileInfo = true
   ): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
-    return this.fileService.GetVerseFile(dataId, getFromFileInfo);
+    return this.fileService.GetFile(dataId, getFromFileInfo);
   };
 
   GetVerseFileDelegate = async (
     dataId: string,
     getFromFileInfo = true
   ): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
-    return this.fileService.GetVerseFileDelegate(dataId, getFromFileInfo);
+    return this.fileService.GetFileDelegate(dataId, getFromFileInfo);
   };
 
   GetVerseComment = async (id: string): Promise<VerseComment> => {

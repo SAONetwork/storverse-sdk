@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { ModelManager } from "storverse-sao-model";
+import { SaoConfig } from "./keplr";
 
 export type FileInfo = {
   id: string;
@@ -14,11 +15,15 @@ export type FileInfo = {
   verseId: string;
 };
 
+const FILE_MODEL_NAME_PREFIX = "filecontent_";
+
 export class FileService {
   private modelManager: ModelManager;
+  private config: SaoConfig;
 
-  constructor(modelManager: ModelManager) {
+  constructor(modelManager: ModelManager, config: SaoConfig) {
     this.modelManager = modelManager;
+    this.config = config;
   }
 
   GetFileInfo = async (id: string) => {
@@ -29,7 +34,7 @@ export class FileService {
     return fileInfo;
   };
 
-  GetVerseFile = async (dataId: string, getFromFileInfo = true): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
+  GetFile = async (dataId: string, getFromFileInfo = true): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
     let fileDataId: string;
     let fileInfo: FileInfo | null = null;
   
@@ -51,7 +56,7 @@ export class FileService {
       });
   };
 
-  GetVerseFileDelegate = async (dataId: string, getFromFileInfo = true): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
+  GetFileDelegate = async (dataId: string, getFromFileInfo = true): Promise<{ fileInfo: FileInfo; data: ArrayBuffer | null | string }> => {
     let fileDataId: string;
     let fileInfo: FileInfo | null = null;
   
@@ -73,12 +78,54 @@ export class FileService {
       });
   };
 
+  CreateFile = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = async event => {
+        try {
+          // Check if the result is an ArrayBuffer, and if not, throw an error.
+          if (!(event.target.result instanceof ArrayBuffer)) {
+            throw new Error("Expected an ArrayBuffer from FileReader");
+          }
+          // try to upload the file chunk and get the result
+          const content = encodeArrayBuffer(event.target.result);
+          const dataId = await this.modelManager.createModel({
+            alias: FILE_MODEL_NAME_PREFIX + uuidv4(),
+            data: content,
+          });
+
+          this.ShareFileInfo(dataId, this.config.nodeDid);
+          resolve(dataId);
+        } catch (error) {
+          // if there is an error, reject the promise with the error
+          if (error.message.includes('insuffcient coin')) {
+            reject(new Error('Insufficient coin balance for this operation.'));
+          } else {
+            reject(error);
+          }
+        }
+      };
+    });
+  }
+
   ShareFileInfo = async (id: string, sids: string[]) => {
     await this.modelManager.updateModelPermission(id, sids);
 
     console.log("publish fileInfo: ", id);
   };
 }
+
+function encodeArrayBuffer (buffer: ArrayBuffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
+
 
 function decodeArrayBuffer(base64: string) {
   const binaryString = window.atob(base64);
